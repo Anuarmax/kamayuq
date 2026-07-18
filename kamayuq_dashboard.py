@@ -208,7 +208,7 @@ MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agost
 def generate_mock_data():
     np.random.seed(42)
     n_rows = 30
-    oficinas = [('100', 'OFICINA DE TECNOLOGÍA DE LA INFORMACIÓN'), ('200', 'OFICINA DE ADMINISTRACIÓN Y FINANZAS')]
+    oficinas = [('100', 'OFICINA DE TECNOLOGÍA DE LA INFORMACIÓN RESPALDO'), ('200', 'OFICINA DE ADMINISTRACIÓN Y FINANZAS RESPALDO')]
     data = []
     for i in range(n_rows):
         of = oficinas[np.random.choice(len(oficinas))]
@@ -221,7 +221,7 @@ def generate_mock_data():
             'meta': '001', 'cod_oficina': of[0], 'desc_oficina': of[1],
             'ftefto': '1-00', 'codigo_poi': 'POI-2026', 'correlativo_poi': 1, 'cadena_pptal': '2.3.1',
             'cod_prog': '9001', 'desc_prog': 'ACCIONES CENTRALES', 'cod_proproy': '3000001', 'desc_proproy': 'PRODUCTO',
-            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'RESPALDO POR DEFECTO',
+            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'DATOS DE RESPALDO (ARCHIVO NO DETECTADO)',
             'cod_clasificador': '23.15', 'desc_clasificador': 'GASTOS', 'cod_unimed': 'UND', 'desc_unimed': 'UNIDAD',
             'cantidad': cant, 'pre_unitario': pre, 'enero': m_vals[0], 'febrero': m_vals[1], 'marzo': m_vals[2],
             'abril': m_vals[3], 'mayo': m_vals[4], 'junio': m_vals[5], 'julio': m_vals[6], 'agosto': m_vals[7],
@@ -244,7 +244,8 @@ if uploaded_file is not None:
         df_raw = generate_mock_data()
 else:
     try:
-        df_raw = pd.read_excel('datos institucionales.xlsx')
+        # CORREGIDO: Apunta con guion bajo idéntico a tu repositorio de GitHub
+        df_raw = pd.read_excel('datos_institucionales.xlsx')
     except:
         df_raw = generate_mock_data()
 
@@ -327,7 +328,7 @@ with tab1:
     with g1:
         st.markdown('<div class="chart-container"><div class="chart-title">Distribución y Desempeño por Unidad Orgánica</div>', unsafe_allow_html=True)
         
-        # Agrupamiento robusto y limpio por oficina
+        # Agrupamiento de importes por oficina
         of_sum = filtered_df.groupby('desc_oficina')['importe'].sum().reset_index()
         
         fig_of = px.bar(of_sum, x='importe', y='desc_oficina', orientation='h', color_discrete_sequence=['#013C58'])
