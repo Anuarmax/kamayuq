@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Estilos CSS de Alta Dirección (Responsivo, Azul 95% - Dorado 5%, Tarjetas con Semáforos)
+# Estilos CSS Avanzados contra Desbordamientos (100% Responsivo y Fluido)
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -31,9 +31,10 @@ st.markdown("""
         .block-container {
             padding-top: 1rem !important;    
             padding-bottom: 2rem !important;  
-            padding-left: 4vw !important;    
-            padding-right: 4vw !important;
+            padding-left: 2vw !important;    
+            padding-right: 2vw !important;
             max-width: 100% !important;        
+            overflow-x: hidden !important;
         }
         
         .stApp {
@@ -56,6 +57,7 @@ st.markdown("""
             background-color: #FFFFFF !important; 
             border-radius: 8px !important;
             border: 2px solid #A8E8F9 !important;
+            max-width: 100% !important;
         }
         
         div[data-baseweb="select"]:hover {
@@ -67,19 +69,19 @@ st.markdown("""
             font-weight: 600 !important;
         }
         
-        /* BANNER EN GRADIENTE FLUIDO (AZUL 95% - DORADO 5%) */
+        /* BANNER EN GRADIENTE FLUIDO RESPONSIVO */
         .main-header {
             background: linear-gradient(90deg, #013C58 0%, #013C58 80%, #00537A 93%, #F5A201 100%);
-            padding: 35px 40px; 
+            padding: clamp(20px, 4vw, 35px) clamp(20px, 4vw, 40px); 
             border-radius: 16px;
             margin-bottom: 25px;
             box-shadow: 0 12px 25px -8px rgba(1, 60, 88, 0.18);
             border: 1px solid #013C58;
-            position: relative;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 10px;
+            width: 100%;
+            max-width: 100%;
         }
         
         .brand-container {
@@ -90,85 +92,95 @@ st.markdown("""
         }
         
         .inca-logo {
-            width: clamp(45px, 7vw, 65px); 
-            height: clamp(45px, 7vw, 65px);
+            width: clamp(40px, 6vw, 65px); 
+            height: clamp(40px, 6vw, 65px);
             fill: #FFFFFF;
-            filter: drop-shadow(0px 3px 5px rgba(1, 60, 88, 0.4));
         }
         
         .main-header h1 {
             color: #FFFFFF !important; 
             margin: 0;
-            font-size: clamp(2.2rem, 5vw, 3.5rem) !important; 
+            font-size: clamp(1.8rem, 4vw, 3.2rem) !important; 
             font-weight: 800;
             letter-spacing: 0.02em;
-            text-shadow: 0 4px 8px rgba(1, 60, 88, 0.6); 
+            line-height: 1.1;
         }
         
         .main-header p {
             color: #A8E8F9 !important; 
             opacity: 0.95;
             margin: 0;
-            font-size: clamp(0.95rem, 2vw, 1.15rem) !important;
+            font-size: clamp(0.85rem, 1.8vw, 1.15rem) !important;
             font-weight: 500;
-            letter-spacing: 0.02em;
         }
         
-        /* Tarjetas con Semáforos */
+        /* Tarjetas Métricas con Control Anti-Desbordamiento */
         .metric-card {
             background-color: #FFFFFF;
             border-radius: 12px;
-            padding: 20px;
+            padding: clamp(15px, 3vw, 20px);
             box-shadow: 0 4px 15px -3px rgba(1, 60, 88, 0.06);
             border-top: 4px solid #CBD5E1; 
             margin-bottom: 15px;
             width: 100%;
             position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 110px;
+            overflow: hidden;
         }
         
         .metric-title {
-            font-size: 0.8rem;
+            font-size: clamp(0.7rem, 1.2vw, 0.8rem);
             color: #475569 !important; 
             text-transform: uppercase;
             font-weight: 700;
             letter-spacing: 0.05em;
+            margin-bottom: 4px;
         }
         
         .metric-value {
-            font-size: clamp(1.5rem, 2.5vw, 2rem) !important; 
+            font-size: clamp(1.3rem, 2.2vw, 1.9rem) !important; 
             color: #013C58 !important; 
             font-weight: 800;
-            margin-top: 6px;
-            word-wrap: break-word; 
+            line-height: 1.2;
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: normal;
         }
         
-        /* Badges de Semáforos */
+        /* Badges Adaptables de Semáforos */
         .semaforo-badge {
             position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 4px 10px;
+            top: 10px;
+            right: 10px;
+            padding: 3px 8px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: clamp(0.6rem, 1vw, 0.7rem);
             font-weight: 700;
             text-transform: uppercase;
+            text-align: center;
         }
         .badge-rojo { background-color: #FEE2E2; color: #991B1B; }
         .badge-amarillo { background-color: #FEF3C7; color: #92400E; }
         .badge-verde { background-color: #D1FAE5; color: #065F46; }
         
+        /* Contenedores de Gráficos Responsivos */
         .chart-container {
             background-color: #FFFFFF;
             border-radius: 14px;
-            padding: 20px;
+            padding: clamp(15px, 2.5vw, 20px);
             box-shadow: 0 4px 20px -2px rgba(1, 60, 88, 0.05);
             border: 1px solid #E2E8F0;
             margin-bottom: 20px;
             width: 100%;
+            max-width: 100%;
+            overflow-x: auto;
         }
         
         .chart-title {
-            font-size: 1rem;
+            font-size: clamp(0.85rem, 1.5vw, 1rem);
             color: #013C58;
             font-weight: 700;
             margin-bottom: 12px;
@@ -176,18 +188,42 @@ st.markdown("""
             padding-left: 10px;
         }
         
-        .stTabs [data-baseweb="tab-list"] { gap: 4px; }
-        .stTabs [data-baseweb="tab"] {
-            font-weight: 700; color: #1E293B !important; 
-            padding: 10px 16px; background-color: #E2E8F0; border-radius: 6px 6px 0px 0px;
+        /* Ajustes de Pestañas y Elementos Nativos de Streamlit */
+        .stTabs [data-baseweb="tab-list"] { 
+            gap: 4px; 
+            flex-wrap: wrap !important;
         }
-        .stTabs [aria-selected="true"] { background-color: #013C58 !important; color: white !important; }
+        .stTabs [data-baseweb="tab"] {
+            font-weight: 700; 
+            color: #1E293B !important; 
+            padding: 8px 14px; 
+            background-color: #E2E8F0; 
+            border-radius: 6px 6px 0px 0px;
+            font-size: clamp(0.8rem, 1.3vw, 0.95rem);
+        }
+        .stTabs [aria-selected="true"] { 
+            background-color: #013C58 !important; 
+            color: white !important; 
+        }
         
         .stButton>button {
-            background-color: #00537A !important; color: white !important;
-            border-radius: 8px !important; font-weight: 600 !important; width: 100%;
+            background-color: #00537A !important; 
+            color: white !important;
+            border-radius: 8px !important; 
+            font-weight: 600 !important; 
+            width: 100%;
         }
-        .stButton>button:hover { background-color: #F5A201 !important; color: #013C58 !important; }
+        .stButton>button:hover { 
+            background-color: #F5A201 !important; 
+            color: #013C58 !important; 
+        }
+        
+        /* Forzar tablas responsivas nativas */
+        div[data-testid="stDataFrame"] {
+            width: 100% !important;
+            max-width: 100% !important;
+            overflow-x: auto !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -221,7 +257,7 @@ def generate_mock_data():
             'meta': '001', 'cod_oficina': of[0], 'desc_oficina': of[1],
             'ftefto': '1-00', 'codigo_poi': 'POI-2026', 'correlativo_poi': 1, 'cadena_pptal': '2.3.1',
             'cod_prog': '9001', 'desc_prog': 'ACCIONES CENTRALES', 'cod_proproy': '3000001', 'desc_proproy': 'PRODUCTO',
-            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'DATOS DE RESPALDO (ARCHIVO NO DETECTADO)',
+            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'RESPALDO POR DEFECTO',
             'cod_clasificador': '23.15', 'desc_clasificador': 'GASTOS', 'cod_unimed': 'UND', 'desc_unimed': 'UNIDAD',
             'cantidad': cant, 'pre_unitario': pre, 'enero': m_vals[0], 'febrero': m_vals[1], 'marzo': m_vals[2],
             'abril': m_vals[3], 'mayo': m_vals[4], 'junio': m_vals[5], 'julio': m_vals[6], 'agosto': m_vals[7],
@@ -232,6 +268,19 @@ def generate_mock_data():
         }
         data.append(row)
     return pd.DataFrame(data)
+
+# CABECERA INSTITUCIONAL RESPONSIVA
+st.markdown("""
+    <div class="main-header">
+        <div class="brand-container">
+            <svg class="inca-logo" viewBox="0 0 24 24">
+                <path d="M12 2a10 10 0 0 0-10 10c0 4.15 2.5 7.73 6 9.3V21a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v.3c3.5-1.57 6-5.15 6-9.3A10 10 0 0 0 12 2zm0 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm-5 8a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0zm5 7a4 4 0 0 1-4-4h8a4 4 0 0 1-4 4zm5-7a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+            </svg>
+            <h1>KAMAYUQ v2.0</h1>
+        </div>
+        <p>Plataforma de Inteligencia de Negocios y Simulación Presupuestal Estratégica</p>
+    </div>
+""", unsafe_allow_html=True)
 
 # CONFIGURACIÓN DEL PANEL LATERAL Y CARGA EN CASCO ESTRICTO
 st.sidebar.title("Configuración y Carga")
@@ -244,7 +293,6 @@ if uploaded_file is not None:
         df_raw = generate_mock_data()
 else:
     try:
-        # CORREGIDO: Apunta con guion bajo idéntico a tu repositorio de GitHub
         df_raw = pd.read_excel('datos_institucionales.xlsx')
     except:
         df_raw = generate_mock_data()
@@ -299,19 +347,19 @@ ratio_ejecucion = (monto_total_ejecutado / monto_total_asignado) if monto_total_
 badge_html = ""
 card_style = ""
 if ratio_ejecucion > 0.85:
-    badge_html = '<span class="semaforo-badge badge-rojo">⚠️ Alerta: Gasto Acelerado</span>'
+    badge_html = '<span class="semaforo-badge badge-rojo">⚠️ Gasto Acelerado</span>'
     card_style = "border-top: 4px solid #EF4444;"
 elif ratio_ejecucion < 0.40:
-    badge_html = '<span class="semaforo-badge badge-amarillo">📉 Alerta: Subejecución</span>'
+    badge_html = '<span class="semaforo-badge badge-amarillo">📉 Subejecución</span>'
     card_style = "border-top: 4px solid #F5A201;"
 else:
     badge_html = '<span class="semaforo-badge badge-verde">✅ Gasto Óptimo</span>'
     card_style = "border-top: 4px solid #10B981;"
 
-# PANEL DE KPI CARDS EJECUTIVAS
-col1, col2, col3, col4 = st.columns(4)
+# PANEL DE KPI CARDS EJECUTIVAS (Distribución Grid nativa responsiva)
+col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
 with col1:
-    st.markdown(f'<div class="metric-card" style="{card_style}"><div>Velocidad Ejecución</div><div class="metric-value">{ratio_ejecucion*100:.1f}%</div>{badge_html}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card" style="{card_style}"><div class="metric-title">Velocidad Ejecución</div><div class="metric-value">{ratio_ejecucion*100:.1f}%</div>{badge_html}</div>', unsafe_allow_html=True)
 with col2:
     st.markdown(f'<div class="metric-card" style="border-top:4px solid #013C58;"><div class="metric-title">Techo Programado</div><div class="metric-value">S/. {monto_total_asignado:,.2f}</div></div>', unsafe_allow_html=True)
 with col3:
@@ -323,20 +371,17 @@ with col4:
 tab1, tab2, tab3 = st.tabs(["📊 Dashboard Ejecutivo v2.0", "🎛️ Planificador Simulador 'What-If'", "📋 Reporteador y Descargas"])
 
 with tab1:
-    st.subheader("Visualización del Modelo de Gasto Institucional")
-    g1, g2 = st.columns(2)
+    st.subheader("Visualización del Gasto Institucional")
+    g1, g2 = st.columns([1, 1])
     with g1:
-        st.markdown('<div class="chart-container"><div class="chart-title">Distribución y Desempeño por Unidad Orgánica</div>', unsafe_allow_html=True)
-        
-        # Agrupamiento de importes por oficina
+        st.markdown('<div class="chart-container"><div class="chart-title">Distribución por Unidad Orgánica</div>', unsafe_allow_html=True)
         of_sum = filtered_df.groupby('desc_oficina')['importe'].sum().reset_index()
-        
         fig_of = px.bar(of_sum, x='importe', y='desc_oficina', orientation='h', color_discrete_sequence=['#013C58'])
         fig_of.update_layout(autosize=True, height=280, margin=dict(l=10, r=10, t=10, b=10), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', yaxis={'title': None}, xaxis={'title': None})
         st.plotly_chart(fig_of, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
     with g2:
-        st.markdown('<div class="chart-container"><div class="chart-title">Cronograma y Curva de Ejecución Física</div>', unsafe_allow_html=True)
+        st.markdown('<div class="chart-container"><div class="chart-title">Cronograma y Curva de Ejecución</div>', unsafe_allow_html=True)
         m_sums = filtered_df[MONTHS].sum().reset_index()
         m_sums.columns = ['Mes', 'Monto']
         fig_m = go.Figure(go.Scatter(x=m_sums['Mes'], y=m_sums['Monto'], mode='lines+markers', line=dict(color='#F5A201', width=3), fill='tozeroy', fillcolor='rgba(245, 162, 1, 0.05)'))
@@ -349,9 +394,9 @@ with tab1:
 # ==========================================================
 with tab2:
     st.subheader("Sala de Simulación Presupuestaria y Austeridad")
-    st.info("Modifique las barras de asignación táctica para medir el impacto de recortes presupuestales inmediatos.")
+    st.info("Modifique las barras de asignación táctica para medir el impacto de cambios presupuestales inmediatos.")
     
-    col_s1, col_s2 = st.columns(2)
+    col_s1, col_s2 = st.columns([1, 1])
     with col_s1:
         f_ti = st.slider("Variación TI (%)", -50, 50, 0, 5)
         f_adm = st.slider("Variación Administración (%)", -50, 50, 0, 5)
@@ -381,11 +426,11 @@ with tab2:
     st.markdown('</div>', unsafe_allow_html=True)
 
 with tab3:
-    st.subheader("Extractor Avanzado de Reportes Customizados")
+    st.subheader("Extractor Avanzado de Reportes")
     cols_seleccionadas = st.multiselect("Columnas de Salida", options=COLUMNS_STRUCTURE, default=['meta', 'desc_oficina', 'desc_prog', 'importe', 'num_siaf'])
     if cols_seleccionadas:
         st.dataframe(filtered_df[cols_seleccionadas], use_container_width=True)
-        c1, c2 = st.columns(2)
+        c1, c2 = st.columns([1, 1])
         with c1:
             out = BytesIO()
             with pd.ExcelWriter(out, engine='openpyxl') as writer:
