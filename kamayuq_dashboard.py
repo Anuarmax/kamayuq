@@ -207,13 +207,13 @@ MONTHS = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agost
 @st.cache_data
 def generate_mock_data():
     np.random.seed(42)
-    n_rows = 100
+    n_rows = 30
     oficinas = [('100', 'OFICINA DE TECNOLOGÍA DE LA INFORMACIÓN'), ('200', 'OFICINA DE ADMINISTRACIÓN Y FINANZAS')]
     data = []
     for i in range(n_rows):
         of = oficinas[np.random.choice(len(oficinas))]
-        cant = np.random.randint(5, 20)
-        pre = 150.0
+        cant = np.random.randint(5, 15)
+        pre = 100.0
         tot = cant * pre
         m_vals = np.zeros(12)
         m_vals[3] = tot
@@ -221,14 +221,14 @@ def generate_mock_data():
             'meta': '001', 'cod_oficina': of[0], 'desc_oficina': of[1],
             'ftefto': '1-00', 'codigo_poi': 'POI-2026', 'correlativo_poi': 1, 'cadena_pptal': '2.3.1',
             'cod_prog': '9001', 'desc_prog': 'ACCIONES CENTRALES', 'cod_proproy': '3000001', 'desc_proproy': 'PRODUCTO',
-            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'DEMO BACKUP DATA',
+            'cod_activ': '50001', 'desc_activ': 'GESTION', 'cod_item': f'I{i}', 'desc_item': 'RESPALDO POR DEFECTO',
             'cod_clasificador': '23.15', 'desc_clasificador': 'GASTOS', 'cod_unimed': 'UND', 'desc_unimed': 'UNIDAD',
             'cantidad': cant, 'pre_unitario': pre, 'enero': m_vals[0], 'febrero': m_vals[1], 'marzo': m_vals[2],
             'abril': m_vals[3], 'mayo': m_vals[4], 'junio': m_vals[5], 'julio': m_vals[6], 'agosto': m_vals[7],
             'setiembre': m_vals[8], 'octubre': m_vals[9], 'noviembre': m_vals[10], 'diciembre': m_vals[11],
             'tot_item': tot, 'ndetprior': 1, 'tipserv': 'BIEN', 'obs_estado': 'APROBADO', 
             'tot_cantcons': cant, 'cant_exclu': 0, 'sol_exclu': 'NO', 'num_req': 'REQ-100', 'num_ccp': 'CCP-100', 'tipo_orden': 'O/C',
-            'ocanumero': 'ORD-100', 'num_siaf': '554210', 'ruc': '20100043841', 'razonsocial': 'PROVEEDOR CENTRAL S.A.', 'importe': tot
+            'ocanumero': 'ORD-100', 'num_siaf': '123456', 'ruc': '20100043841', 'razonsocial': 'EMPRESA DEMO S.A.', 'importe': tot
         }
         data.append(row)
     return pd.DataFrame(data)
@@ -237,7 +237,6 @@ def generate_mock_data():
 st.sidebar.title("Configuración y Carga")
 uploaded_file = st.sidebar.file_uploader("Cargar Archivo de Datos (Excel/CSV)", type=['xlsx', 'csv'])
 
-# LECTURA DEL ARCHIVO DE FORMA AUTOMÁTICA O MANUAL DESDE LA WEB
 if uploaded_file is not None:
     try:
         df_raw = pd.read_csv(uploaded_file) if uploaded_file.name.endswith('.csv') else pd.read_excel(uploaded_file)
@@ -245,36 +244,44 @@ if uploaded_file is not None:
         df_raw = generate_mock_data()
 else:
     try:
-        # Sincronización estricta con el archivo que acabas de subir en GitHub
         df_raw = pd.read_excel('datos institucionales.xlsx')
     except:
         df_raw = generate_mock_data()
 
-# Sanitizar que no falten columnas críticas de control
+# Sanitizar columnas numéricas y de control estructural
 for col in COLUMNS_STRUCTURE:
     if col not in df_raw.columns:
         df_raw[col] = 0 if col in MONTHS or col in ['cantidad', 'pre_unitario', 'importe', 'tot_item'] else ''
 
+# Forzar conversión de importes a numéricos limpios a nivel global
+df_raw['importe'] = pd.to_numeric(df_raw['importe'], errors='coerce').fillna(0)
+df_raw['tot_item'] = pd.to_numeric(df_raw['tot_item'], errors='coerce').fillna(0)
+for m in MONTHS:
+    df_raw[m] = pd.to_numeric(df_raw[m], errors='coerce').fillna(0)
+
 # ==========================================================
-# IMPLEMENTACIÓN DE FILTROS EN CASCADA
+# FILTROS EN CASCADA INTELIGENTES (CORREGIDOS CONTRA NULOS)
 # ==========================================================
 st.sidebar.subheader("Filtros en Cascada (BI)")
 
-oficinas_disponibles = ["[ Todas las Oficinas ]"] + sorted(list(df_raw['desc_oficina'].astype(str).unique()))
+oficinas_limpias = sorted([str(x) for x in df_raw['desc_oficina'].dropna().unique() if str(x).strip() != ''])
+oficinas_disponibles = ["[ Todas las Oficinas ]"] + oficinas_limpias
 selected_oficina = st.sidebar.selectbox("1. Filtrar por Oficina Orgánica", oficinas_disponibles)
 
 df_step1 = df_raw.copy()
 if selected_oficina != "[ Todas las Oficinas ]":
     df_step1 = df_step1[df_step1['desc_oficina'].astype(str) == selected_oficina]
 
-programas_disponibles = ["[ Todos los Programas ]"] + sorted(list(df_step1['desc_prog'].astype(str).unique()))
+programas_limpios = sorted([str(x) for x in df_step1['desc_prog'].dropna().unique() if str(x).strip() != ''])
+programas_disponibles = ["[ Todos los Programas ]"] + programas_limpios
 selected_programa = st.sidebar.selectbox("2. Programa Presupuestal (Filtrado)", programas_disponibles)
 
 df_step2 = df_step1.copy()
 if selected_programa != "[ Todos los Programas ]":
     df_step2 = df_step2[df_step2['desc_prog'].astype(str) == selected_programa]
 
-metas_disponibles = ["[ Todas las Metas ]"] + sorted(list(df_step2['meta'].astype(str).unique()))
+metas_limpias = sorted([str(x) for x in df_step2['meta'].dropna().unique() if str(x).strip() != ''])
+metas_disponibles = ["[ Todas las Metas ]"] + metas_limpias
 selected_meta = st.sidebar.selectbox("3. Meta Presupuestaria (Filtrada)", metas_disponibles)
 
 filtered_df = df_step2.copy()
@@ -285,7 +292,7 @@ if selected_meta != "[ Todas las Metas ]":
 # SEMÁFOROS DE ALERTA TEMPRANA
 # ==========================================================
 monto_total_asignado = filtered_df['tot_item'].sum()
-monto_total_ejecutado = filtered_df[MONTHS[:7]].sum().sum() # Acumulado a Julio
+monto_total_ejecutado = filtered_df[MONTHS[:7]].sum().sum() # Hasta Julio de 2026
 ratio_ejecucion = (monto_total_ejecutado / monto_total_asignado) if monto_total_asignado > 0 else 0
 
 badge_html = ""
@@ -309,7 +316,7 @@ with col2:
 with col3:
     st.markdown(f'<div class="metric-card" style="border-top:4px solid #00537A;"><div class="metric-title">Girado Ejecutado</div><div class="metric-value">S/. {monto_total_ejecutado:,.2f}</div></div>', unsafe_allow_html=True)
 with col4:
-    st.markdown(f'<div class="metric-card" style="border-top:4px solid #FFBA42;"><div class="metric-title">SIAF Identificados</div><div class="metric-value">{filtered_df["num_siaf"].nunique()}</div></div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="metric-card" style="border-top:4px solid #FFBA42;"><div class="metric-title">SIAF Identificados</div><div class="metric-value">{filtered_df["num_siaf"].astype(str).dropna().nunique()}</div></div>', unsafe_allow_html=True)
 
 # PESTAÑAS DE ANÁLISIS ESTRATÉGICO
 tab1, tab2, tab3 = st.tabs(["📊 Dashboard Ejecutivo v2.0", "🎛️ Planificador Simulador 'What-If'", "📋 Reporteador y Descargas"])
@@ -319,7 +326,10 @@ with tab1:
     g1, g2 = st.columns(2)
     with g1:
         st.markdown('<div class="chart-container"><div class="chart-title">Distribución y Desempeño por Unidad Orgánica</div>', unsafe_allow_html=True)
+        
+        # Agrupamiento robusto y limpio por oficina
         of_sum = filtered_df.groupby('desc_oficina')['importe'].sum().reset_index()
+        
         fig_of = px.bar(of_sum, x='importe', y='desc_oficina', orientation='h', color_discrete_sequence=['#013C58'])
         fig_of.update_layout(autosize=True, height=280, margin=dict(l=10, r=10, t=10, b=10), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', yaxis={'title': None}, xaxis={'title': None})
         st.plotly_chart(fig_of, use_container_width=True, config={'displayModeBar': False})
@@ -334,7 +344,7 @@ with tab1:
         st.markdown('</div>', unsafe_allow_html=True)
 
 # ==========================================================
-# SIMULADOR ESTRATÉGICAL "WHAT-IF"
+# SIMULADOR ESTRATÉGICO "WHAT-IF"
 # ==========================================================
 with tab2:
     st.subheader("Sala de Simulación Presupuestaria y Austeridad")
@@ -349,11 +359,13 @@ with tab2:
         f_plan = st.slider("Variación Planeamiento (%)", -50, 50, 0, 5)
         
     sim_df = filtered_df.copy()
+    
     def aplicar_sim(row):
-        if 'TECNOLOGÍA' in str(row['desc_oficina']): return row['importe'] * (1 + f_ti / 100)
-        if 'ADMINISTRACIÓN' in str(row['desc_oficina']): return row['importe'] * (1 + f_adm / 100)
-        if 'OPERACIONES' in str(row['desc_oficina']): return row['importe'] * (1 + f_ops / 100)
-        if 'PLANEAMIENTO' in str(row['desc_oficina']): return row['importe'] * (1 + f_plan / 100)
+        oficina_str = str(row['desc_oficina']).upper()
+        if 'TECNOLOGÍA' in oficina_str or 'TI' in oficina_str: return row['importe'] * (1 + f_ti / 100)
+        if 'ADMINISTRACIÓN' in oficina_str: return row['importe'] * (1 + f_adm / 100)
+        if 'OPERACIONES' in oficina_str: return row['importe'] * (1 + f_ops / 100)
+        if 'PLANEAMIENTO' in oficina_str: return row['importe'] * (1 + f_plan / 100)
         return row['importe']
         
     sim_df['importe_simulado'] = sim_df.apply(aplicar_sim, axis=1)
@@ -377,9 +389,9 @@ with tab3:
             out = BytesIO()
             with pd.ExcelWriter(out, engine='openpyxl') as writer:
                 filtered_df[cols_seleccionadas].to_excel(writer, index=False, sheet_name='KAMAYUQ_BI')
-            st.download_button(label="📥 Descargar Excel Customizado", data=out.getvalue(), file_name='kamayuq_bi_report.xlsx')
+            st.download_button(label="📥 Descargar Excel Customizado", data=out.getvalue(), file_name='reporte_kamayuq_bi.xlsx')
         with c2:
-            st.download_button(label="📄 Descargar CSV", data=filtered_df[cols_seleccionadas].to_csv(index=False).encode('utf-8'), file_name='kamayuq_bi_report.csv')
+            st.download_button(label="📄 Descargar CSV", data=filtered_df[cols_seleccionadas].to_csv(index=False).encode('utf-8'), file_name='reporte_kamayuq_bi.csv')
 
 st.markdown("""
     <hr style="border:1px solid #CBD5E1">
