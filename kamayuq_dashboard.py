@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# ESTILOS OESTE SATINADO (Colores Profundos, Tersos y Maduros)
+# ESTILOS OESTE SATINADO CON ENFOQUE EN MÁXIMO PROTAGONISMO DE GRÁFICOS
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -29,15 +29,15 @@ st.markdown("""
         }
         
         .block-container {
-            padding-top: 1rem !important;    
-            padding-bottom: 2rem !important;  
+            padding-top: 0.8rem !important;    
+            padding-bottom: 1.5rem !important;  
             padding-left: clamp(1vw, 2vw, 2vw) !important;    
             padding-right: clamp(1vw, 2vw, 2vw) !important;
             max-width: 100% !important;        
             overflow-x: hidden !important;
         }
         
-        /* Fondo General Arena Seda / Mantequilla Suave */
+        /* Fondo General Arena Seda */
         .stApp {
             background: #F8F6F0;
             color: #264653;
@@ -45,21 +45,21 @@ st.markdown("""
         
         /* Panel Lateral Cuero Obscuro */
         [data-testid="stSidebar"] {
-            background-color: #1D2D35;
+            background-color: #121E30;
             color: #FFFFFF;
         }
         
         [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {
-            color: #E76F51 !important;
+            color: #E2E8F0 !important;
             font-weight: 600 !important;
         }
         
         /* Contenedores de Filtro */
         div[data-baseweb="select"] {
             background-color: #FFFFFF !important; 
-            border-radius: 12px !important;
+            border-radius: 10px !important;
             border: 1.5px solid #E5E0D8 !important;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02) !important;
             max-width: 100% !important;
         }
         
@@ -72,60 +72,62 @@ st.markdown("""
             font-weight: 700 !important;
         }
         
-        /* BANNER OESTE SATINADO EN DEGRADADO TERROSO */
+        /* BANNER SLIM EXECUTIVE (ALTURA REDUCIDA) */
         .main-header {
-            background: linear-gradient(135deg, #1D3557 0%, #264653 45%, #D65A31 80%, #E9C46A 100%);
-            padding: clamp(15px, 3vw, 36px) clamp(15px, 3vw, 42px); 
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 12px 28px -5px rgba(214, 90, 49, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-            max-width: 100%;
+            background: linear-gradient(135deg, #1D3557 0%, #121E30 100%) !important;
+            padding: 12px 24px !important; 
+            border-radius: 12px !important;
+            margin-bottom: 12px !important;
+            box-shadow: 0 6px 18px -4px rgba(29, 53, 87, 0.2) !important;
+            border-left: 5px solid #D65A31 !important;
+            border-top: 1px solid rgba(233, 196, 106, 0.2) !important;
+            border-right: 1px solid rgba(229, 224, 216, 0.3) !important;
+            border-bottom: 1px solid rgba(229, 224, 216, 0.3) !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
         }
         
         .brand-container {
             display: flex;
             align-items: center;
-            gap: 12px; 
+            gap: 14px; 
             flex-wrap: wrap; 
         }
         
         .inca-logo {
-            width: clamp(32px, 4vw, 58px); 
-            height: clamp(32px, 4vw, 58px);
-            fill: #FFFFFF;
-            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+            width: 32px; 
+            height: 32px;
+            fill: #E9C46A;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
         }
         
         .main-header h1 {
             color: #FFFFFF !important; 
             margin: 0;
-            font-size: clamp(1.4rem, 3vw, 3rem) !important; 
+            font-size: 1.45rem !important; 
             font-weight: 800;
-            letter-spacing: -0.02em;
+            letter-spacing: -0.01em;
             line-height: 1.1;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
         
         .main-header p {
-            color: #F8F6F0 !important; 
+            color: #E9C46A !important; 
             opacity: 0.95;
             margin: 0;
-            font-size: clamp(0.75rem, 1.2vw, 1.05rem) !important;
+            font-size: 0.82rem !important;
             font-weight: 600;
         }
         
-        /* GRID DE KPIS ADAPTABLE SEGÚN PANTALLA */
+        /* GRID DE KPIS COMPACTAS (AORRO VERTICAL) */
         .kpi-responsive-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 12px;
+            gap: 10px;
             width: 100%;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         @media (max-width: 1200px) {
@@ -144,51 +146,51 @@ st.markdown("""
             }
         }
         
-        /* Tarjetas Métricas Satinadas */
+        /* Tarjetas Métricas Slim */
         .metric-card {
             background: #FFFFFF;
-            border-radius: 16px;
-            padding: clamp(10px, 1.5vw, 16px);
-            box-shadow: 0 8px 20px -4px rgba(38, 70, 83, 0.05);
+            border-radius: 12px;
+            padding: 8px 12px;
+            box-shadow: 0 4px 12px -2px rgba(38, 70, 83, 0.05);
             border: 1px solid #E5E0D8;
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 95px;
+            min-height: 72px;
             width: 100%;
             overflow: hidden;
             word-break: break-word;
         }
         
         .metric-title {
-            font-size: clamp(0.6rem, 0.85vw, 0.68rem);
+            font-size: 0.62rem;
             color: #6C757D !important; 
             text-transform: uppercase;
             font-weight: 800;
-            letter-spacing: 0.05em;
-            margin-bottom: 4px;
-            white-space: normal;
+            letter-spacing: 0.04em;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         
         .metric-value {
-            font-size: clamp(0.95rem, 1.4vw, 1.45rem) !important; 
+            font-size: clamp(0.9rem, 1.2vw, 1.25rem) !important; 
             color: #1D3557 !important; 
             font-weight: 800;
-            line-height: 1.2;
-            white-space: normal;
-            word-wrap: break-word;
-            word-break: break-all;
+            line-height: 1.1;
+            white-space: nowrap;
         }
         
-        /* Badges de Semáforo Satin */
+        /* Badges de Semáforo Satin Slim */
         .semaforo-badge {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            padding: 2px 7px;
-            border-radius: 20px;
-            font-size: clamp(0.5rem, 0.7vw, 0.62rem);
+            top: 6px;
+            right: 6px;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 0.52rem;
             font-weight: 800;
             text-transform: uppercase;
         }
@@ -196,24 +198,24 @@ st.markdown("""
         .badge-amarillo { background-color: #FFF3CD; color: #B5838D; }
         .badge-verde { background-color: #D1E7DD; color: #2A9D8F; }
         
-        /* Contenedores de Gráficos Fluídos */
+        /* CONTENEDORES DE GRÁFICOS MAXIMIZADOS */
         .chart-container {
             background: #FFFFFF;
-            border-radius: 20px;
-            padding: clamp(12px, 2vw, 20px);
-            box-shadow: 0 10px 25px -4px rgba(38, 70, 83, 0.05);
+            border-radius: 18px;
+            padding: 16px 18px 10px 18px;
+            box-shadow: 0 10px 25px -4px rgba(38, 70, 83, 0.06);
             border: 1px solid #E5E0D8;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             width: 100%;
             max-width: 100%;
             overflow-x: auto;
         }
         
         .chart-title {
-            font-size: clamp(0.8rem, 1.2vw, 0.95rem);
+            font-size: 0.95rem;
             color: #1D3557;
             font-weight: 800;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
             border-left: 4px solid #D65A31;
             padding-left: 10px;
         }
@@ -225,10 +227,10 @@ st.markdown("""
         .stTabs [data-baseweb="tab"] {
             font-weight: 800; 
             color: #6C757D !important; 
-            padding: 8px 16px; 
+            padding: 6px 16px; 
             background-color: #E5E0D8; 
-            border-radius: 10px 10px 0px 0px;
-            font-size: clamp(0.75rem, 1vw, 0.88rem);
+            border-radius: 8px 8px 0px 0px;
+            font-size: 0.82rem;
         }
         .stTabs [aria-selected="true"] { 
             background: #1D3557 !important; 
@@ -305,7 +307,7 @@ def generate_mock_data():
         data.append(row)
     return pd.DataFrame(data)
 
-# Header Principal
+# Banner Principal Slim
 st.markdown("""
     <div class="main-header">
         <div class="brand-container">
@@ -393,14 +395,14 @@ filtered_df['cant_disponible'] = np.round(filtered_df['cant_incluida'] * (1 - ra
 badge_html = ""
 card_style = ""
 if ratio_ejecucion > 0.85:
-    badge_html = '<span class="semaforo-badge badge-rojo">⚠️ Gasto Acelerado</span>'
-    card_style = "border-top: 4px solid #D65A31;"
+    badge_html = '<span class="semaforo-badge badge-rojo">⚠️ Acelerado</span>'
+    card_style = "border-top: 3.5px solid #D65A31;"
 elif ratio_ejecucion < 0.40:
-    badge_html = '<span class="semaforo-badge badge-amarillo">📉 Subejecución</span>'
-    card_style = "border-top: 4px solid #E9C46A;"
+    badge_html = '<span class="semaforo-badge badge-amarillo">📉 Subejec.</span>'
+    card_style = "border-top: 3.5px solid #E9C46A;"
 else:
-    badge_html = '<span class="semaforo-badge badge-verde">✅ Gasto Óptimo</span>'
-    card_style = "border-top: 4px solid #2A9D8F;"
+    badge_html = '<span class="semaforo-badge badge-verde">✅ Óptimo</span>'
+    card_style = "border-top: 3.5px solid #2A9D8F;"
 
 tab1, tab2, tab3 = st.tabs(["📊 Dashboard Ejecutivo v2.0", "🎛️ Planificador Simulador 'What-If'", "📋 Reporteador y Descargas"])
 
@@ -436,6 +438,7 @@ with tab1:
         val_cant_excl = filtered_df['cant_excluida'].sum()
         val_cant_disp = filtered_df['cant_disponible'].sum()
 
+    # TARJETAS EN GRID COMPACTAS
     st.markdown(f"""
         <div class="kpi-responsive-grid">
             <div class="metric-card" style="{card_style}">
@@ -443,27 +446,27 @@ with tab1:
                 <div class="metric-value">{ratio_ejecucion*100:.1f}%</div>
                 {badge_html}
             </div>
-            <div class="metric-card" style="border-top:4px solid #1D3557;">
+            <div class="metric-card" style="border-top:3.5px solid #1D3557;">
                 <div class="metric-title">Techo Programado</div>
                 <div class="metric-value">S/. {monto_total_asignado:,.2f}</div>
             </div>
-            <div class="metric-card" style="border-top:4px solid #264653;">
+            <div class="metric-card" style="border-top:3.5px solid #264653;">
                 <div class="metric-title">Girado Ejecutado</div>
                 <div class="metric-value">S/. {monto_total_ejecutado:,.2f}</div>
             </div>
-            <div class="metric-card" style="border-top:4px solid #2A9D8F;">
+            <div class="metric-card" style="border-top:3.5px solid #2A9D8F;">
                 <div class="metric-title">Cant. Programada</div>
                 <div class="metric-value">{val_cant_prog:,.0f}</div>
             </div>
-            <div class="metric-card" style="border-top:4px solid #457B9D;">
+            <div class="metric-card" style="border-top:3.5px solid #457B9D;">
                 <div class="metric-title">Cant. Atendida</div>
                 <div class="metric-value">{val_cant_atend:,.0f}</div>
             </div>
-            <div class="metric-card" style="border-top:4px solid #D65A31;">
+            <div class="metric-card" style="border-top:3.5px solid #D65A31;">
                 <div class="metric-title">Cant. Excluida</div>
                 <div class="metric-value">{val_cant_excl:,.0f}</div>
             </div>
-            <div class="metric-card" style="border-top:4px solid #E9C46A;">
+            <div class="metric-card" style="border-top:3.5px solid #E9C46A;">
                 <div class="metric-title">Ítems Disponibles</div>
                 <div class="metric-value">{val_cant_disp:,.0f}</div>
             </div>
@@ -471,12 +474,12 @@ with tab1:
     """, unsafe_allow_html=True)
 
     # ------------------------------------------------------
-    # GRÁFICOS PALETA OESTE SATINADO (TERSO, MATE, ELEGANTE)
+    # GRÁFICOS MÁXIMO PROTAGONISMO (ALTURA 370px)
     # ------------------------------------------------------
     st.subheader("Centro de Control y Balance de Impacto")
     v1, v2, v3 = st.columns([1, 1.25, 1])
     
-    # 1. ANILLO EN AZUL ÍNDIGO SATINADO Y ÁMBAR MIEL
+    # 1. ANILLO PRESUPUESTAL AMPLIADO
     with v1:
         st.markdown('<div class="chart-container"><div class="chart-title">Avance Presupuestal Consolidado</div>', unsafe_allow_html=True)
         monto_disp = max(0, monto_total_asignado - monto_total_ejecutado)
@@ -485,24 +488,24 @@ with tab1:
             labels=['Ejecutado (Girado)', 'Saldo Disponible'],
             values=[monto_total_ejecutado, monto_disp],
             hole=.65,
-            marker=dict(colors=['#1D3557', '#E9C46A'], line=dict(color='#FFFFFF', width=2)),
+            marker=dict(colors=['#1D3557', '#E9C46A'], line=dict(color='#FFFFFF', width=2.5)),
             textinfo='percent',
-            textfont=dict(family="Plus Jakarta Sans", size=12, color="#FFFFFF", weight="bold"),
+            textfont=dict(family="Plus Jakarta Sans", size=13, color="#FFFFFF", weight="bold"),
             hoverinfo='label+value'
         )])
         fig_donut.update_layout(
-            annotations=[dict(text=f"<b>{ratio_ejecucion*100:.1f}%</b><br><span style='font-size:10px; color:#6C757D;'>Avance</span>", x=0.5, y=0.5, font_size=21, showarrow=False, font_color="#1D3557", font_family="Plus Jakarta Sans")],
+            annotations=[dict(text=f"<b>{ratio_ejecucion*100:.1f}%</b><br><span style='font-size:11px; color:#6C757D;'>Avance</span>", x=0.5, y=0.5, font_size=26, showarrow=False, font_color="#1D3557", font_family="Plus Jakarta Sans")],
             showlegend=True,
-            legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5),
             autosize=True,
-            height=270,
-            margin=dict(l=10, r=10, t=10, b=30),
+            height=370,
+            margin=dict(l=10, r=10, t=10, b=25),
             paper_bgcolor='rgba(0,0,0,0)'
         )
         st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # 2. BARRAS COMPARATIVAS DUAL EN AZUL ÍNDIGO & VERDE SALVIA
+    # 2. BARRAS COMPARATIVAS DUAL AMPLIADAS
     with v2:
         st.markdown('<div class="chart-container"><div class="chart-title">Desempeño Comparativo: Financiero vs. Físico</div>', unsafe_allow_html=True)
         
@@ -514,16 +517,16 @@ with tab1:
             y=['Avance Financiero', 'Atención Física'],
             x=[pct_financiero, pct_fisico],
             orientation='h',
-            marker=dict(color=['#1D3557', '#2A9D8F'], line=dict(color='#FFFFFF', width=1.5)),
+            marker=dict(color=['#1D3557', '#2A9D8F'], line=dict(color='#FFFFFF', width=2)),
             text=[f"{pct_financiero:.1f}%", f"{pct_fisico:.1f}%"],
             textposition='outside',
-            textfont=dict(family='Plus Jakarta Sans', size=12, color='#1D3557', weight="bold")
+            textfont=dict(family='Plus Jakarta Sans', size=13, color='#1D3557', weight="bold")
         ))
         
         fig_bar_dual.update_layout(
             autosize=True,
-            height=270,
-            margin=dict(l=10, r=35, t=20, b=10),
+            height=370,
+            margin=dict(l=10, r=45, t=25, b=10),
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             xaxis=dict(range=[0, 118], showgrid=True, gridcolor='#E5E0D8', title="% de Cumplimiento"),
@@ -532,7 +535,7 @@ with tab1:
         st.plotly_chart(fig_bar_dual, use_container_width=True, config={'displayModeBar': False})
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # 3. DONUT OPERATIVO TRIPLE SATINADO (SALVIA, MIEL Y TERRACOTA)
+    # 3. DONUT OPERATIVO TRIPLE AMPLIADO
     with v3:
         st.markdown('<div class="chart-container"><div class="chart-title">Distribución de Carga Operativa</div>', unsafe_allow_html=True)
         
@@ -540,20 +543,20 @@ with tab1:
             labels=['Atendidos', 'Disponibles', 'Excluidos'],
             values=[val_cant_atend, val_cant_disp, val_cant_excl],
             hole=.60,
-            marker=dict(colors=['#2A9D8F', '#E9C46A', '#D65A31'], line=dict(color='#FFFFFF', width=2)),
+            marker=dict(colors=['#2A9D8F', '#E9C46A', '#D65A31'], line=dict(color='#FFFFFF', width=2.5)),
             textinfo='label+percent',
-            textfont=dict(family='Plus Jakarta Sans', size=11, color='#1D3557', weight="bold"),
+            textfont=dict(family='Plus Jakarta Sans', size=12, color='#1D3557', weight="bold"),
             hoverinfo='label+value'
         )])
         
         fig_radial_ring.update_layout(
             annotations=[dict(
-                text=f"<b>{val_cant_prog:,.0f}</b><br><span style='font-size:10px; color:#6C757D;'>Ítems Total</span>",
-                x=0.5, y=0.5, font_size=18, showarrow=False, font_color="#1D3557", font_family="Plus Jakarta Sans"
+                text=f"<b>{val_cant_prog:,.0f}</b><br><span style='font-size:11px; color:#6C757D;'>Ítems Total</span>",
+                x=0.5, y=0.5, font_size=22, showarrow=False, font_color="#1D3557", font_family="Plus Jakarta Sans"
             )],
             showlegend=False,
             autosize=True,
-            height=270,
+            height=370,
             margin=dict(l=15, r=15, t=10, b=10),
             paper_bgcolor='rgba(0,0,0,0)'
         )
@@ -566,7 +569,7 @@ with tab1:
     event_selection = st.dataframe(
         df_display, 
         use_container_width=True,
-        height=290,
+        height=280,
         on_select="rerun",
         selection_mode="single-row"
     )
@@ -609,7 +612,7 @@ with tab2:
     fig_comp = go.Figure()
     fig_comp.add_trace(go.Bar(name='Presupuesto Original', x=comp_df['desc_oficina'], y=comp_df['importe'], marker_color='#1D3557'))
     fig_comp.add_trace(go.Bar(name='Escenario Simulado', x=comp_df['desc_oficina'], y=comp_df['importe_simulado'], marker_color='#E9C46A'))
-    fig_comp.update_layout(barmode='group', autosize=True, height=280, margin=dict(l=10, r=10, t=15, b=10), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#1D3557'))
+    fig_comp.update_layout(barmode='group', autosize=True, height=320, margin=dict(l=10, r=10, t=15, b=10), plot_bgcolor='rgba(0,0,0,0)', paper_bgcolor='rgba(0,0,0,0)', font=dict(color='#1D3557'))
     st.plotly_chart(fig_comp, use_container_width=True, config={'displayModeBar': False})
     st.markdown('</div>', unsafe_allow_html=True)
 
